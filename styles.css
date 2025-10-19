@@ -1,0 +1,71 @@
+body{
+    background-color: hsl(204, 58%, 66%);
+}
+
+.index{
+    font-family: Arial;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.index h1{
+    font-size: 50px;
+}
+
+
+.weatherForm{
+    margin: 20px;
+}
+
+.cityInput{
+    padding: 10px;
+    font-size: 2rem;
+    font-weight: bold;
+    border: 2px solid hsla(229, 74%, 40%, 0.522);
+    border-radius: 10px;
+    margin: 10px;
+    width: 600px;
+    height: 30px;
+    
+}
+
+button[type="submit"]{
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 1.7rem;
+    background-color: hsl(0, 0%, 90%);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover{
+    background-color: hsl(0, 0%, 79%);
+}
+
+.result{
+    background: linear-gradient(180deg, rgba(0, 0, 255, 0.677), rgba(255, 166, 0, 0.704));
+    height: 400px;
+    width: 300px;
+    padding: 50px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    box-shadow: 30px 30px 50px hsla(0, 0%, 100%, 0.4)
+
+    
+}
+
+
+.result, p{
+    color: rgba(255, 255, 255, 0.896);
+    font-size: 1rem;    
+}
+
+.cityDisplay, .tempDisplay{
+    font-size: 2rem;
+    font-weight: bold;
+}
