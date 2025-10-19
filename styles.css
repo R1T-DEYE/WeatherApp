@@ -69,3 +69,7 @@ button[type="submit"]:hover{
     font-size: 2rem;
     font-weight: bold;
 }
+
+.errorDisplay {
+  font-weight: bold;
+}
