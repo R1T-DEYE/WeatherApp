@@ -13,6 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: read #This is required for actions/checkout
 
     steps:
@@ -60,6 +61,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'weatherapp-test'
-          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: .
           
