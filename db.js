@@ -5,13 +5,14 @@ import mysql from 'mysql2/promise';
 export const pool = mysql.createPool({
   host: process.env.DB_HOST,
   port: +(process.env.DB_PORT || 3306),
-  user: process.env.DB_USER,
+  user: process.env.DB_USER,        // should be 'admin1'
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  ssl: { minVersion: 'TLSv1.2' },
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
 });
+
 
 /**
  * Create required tables if they don't exist.
