@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Forecast</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- ✅ Navigation Bar -->
+  <nav style="background-color: #0078D7; padding: 10px;">
+    <a href="/" style="color:white; margin-right:20px; text-decoration:none;">Home</a>
+    <a href="/forecast" style="color:white; margin-right:20px; text-decoration:none;">Forecasts</a>
+  </nav>
+
+  <main>
+      <div class="page-container">
+        <h1>5-Day Forecast</h1>
+
+        <form class="weatherForm">
+          <input type="text" class="cityInput" placeholder="Enter city name">
+          <button type="submit">Get Forecast</button>
+        </form>
+
+        <div class="forecast-result" style="display: none">
+          <h2 class="forecast-city"></h2>
+          <div class="forecast-grid"></div>
+        </div>
+      </div>
+    </main>
+
+    <script src="scripts/forecast.js"></script>
+  </body>
+</body>
+</html>

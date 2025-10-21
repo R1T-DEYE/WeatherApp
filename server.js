@@ -13,9 +13,7 @@ const CACHE_TTL_MIN = 20;
 app.use(express.static(".")); 
 
 // ensure tables exist before serving
-await initDb();
-
-
+// await initDb();
 
 app.get("/weather", async (req, res) => {
   const city = (req.query.city || "").trim();
@@ -64,6 +62,44 @@ app.get("/weather", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch weather data" });
   }
 });
+
+app.get("/weatheralerts", async (req, res) => {
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=-25.2744&lon=133.7751&appid=${process.env.API_KEY}`);
+    const data = await response.json();
+    const alerts = data.alerts || [];
+    res.json(alerts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch alerts" });
+  }
+});
+
+// 5-Day forecast endpoint
+app.get("/forecast", async (req, res) => {
+  const city = (req.query.city || "").trim();
+  if (!city) return res.status(400).json({ error: "City required" });
+
+  try {
+    const r = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`
+    );
+    
+    if (!r.ok) return res.status(r.status).json({ error: "City not found" });
+
+    const data = await r.json();
+    
+    // Log the search
+    pool.query(`INSERT INTO searches(city, ip) VALUES(?, ?)`, [city, req.ip]).catch(()=>{});
+    
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch forecast data" });
+  }
+});
+
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, "0.0.0.0", () => console.log(`✅ listening on ${port}`));

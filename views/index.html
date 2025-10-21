@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" href="assets\9811930.png" type="image/x-icon">
+  </head>
+
+  <body>
+    <!-- Navigation Bar -->
+    <nav style="background-color: #0078D7; padding: 10px;">
+      <a href="/" style="color:white; margin-right:20px; text-decoration:none;">Home</a>
+      <a href="/forecast" style="color:white; margin-right:20px; text-decoration:none;">Forecasts</a>
+    </nav>
+
+    <main class="index">
+      <h1>Weather App</h1>  
+
+      <!-- City Search Form -->
+      <form class="weatherForm">
+        <input type="text" class="cityInput" placeholder="Enter a city...">
+        <button type="submit">Get Weather</button>
+      </form>
+
+      <!-- Weather Results -->
+      <div class="result" style="display: none;"></div>
+
+      <!-- National Weather Alerts -->
+      <div id="alertsSection" style="margin-top:20px; display:none; border:1px solid #ccc; padding:10px; border-radius:5px;">
+        <h2>National Weather Alerts</h2>
+        <div id="alertsContent">Loading alerts...</div>
+      </div>
+    </main>
+
+    <script src="scripts/index.js"></script>
+  </body>
+</html>

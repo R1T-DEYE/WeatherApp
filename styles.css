@@ -73,3 +73,53 @@ button[type="submit"]:hover{
 .errorDisplay {
   font-weight: bold;
 }
+
+/* Forecast Grid */
+.forecast-result {
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 2rem;
+}
+
+.forecast-city {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.forecast-card {
+  background: linear-gradient(180deg, rgba(0, 0, 255, 0.677), rgba(255, 166, 0, 0.704));
+  padding: 1.5rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 10px 10px 30px hsla(0, 0%, 100%, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.forecast-card:hover {
+  transform: translateY(-5px);
+}
+
+.forecast-card h3 {
+  color: white;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.forecast-card p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.forecast-temp {
+  font-size: 1.8rem !important;
+  font-weight: bold;
+  color: white !important;
+}
