@@ -136,6 +136,51 @@ button[type="submit"]:hover {
   font-size: 1.2rem;
 }
 
+countryDisplay {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .weatherDescription {
+    font-size: 1.3rem;
+    color: #555;
+    text-transform: capitalize;
+    margin-bottom: 1.5rem;
+  }
+  
+  .weatherDetails {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .weatherDetail {
+    background-color: white;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #A2CDB0;
+  }
+  
+  .detailLabel {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .detailValue {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #85A389;
+  }
+
 /* Weather Alerts Section */
 #alertsSection {
   margin-top: 2rem !important;
