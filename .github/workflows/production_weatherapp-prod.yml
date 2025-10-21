@@ -30,10 +30,14 @@ jobs:
       - name: Package deployable files
         run: |
           mkdir -p deploy
-          cp -r package.json package-lock.json server.js ./deploy || true
-          cp -r src public views dist ./deploy 2>/dev/null || true
-          # include installed dependencies so the app can start without server-side npm install
-          cp -r node_modules ./deploy
+          rsync -av \
+            --exclude '.git*' --exclude '.github' \
+            --exclude 'tests' --exclude 'test' \
+            --exclude 'node_modules' \
+            --exclude '*.md' \
+            --exclude '.env*' \
+            ./ deploy
+
 
       - uses: actions/upload-artifact@v4
         with:
@@ -64,4 +68,5 @@ jobs:
         with:
           app-name: 'weatherapp-prod'
           package: .
+
 
