@@ -10,10 +10,10 @@ const apiKey = process.env.WEATHER_API_KEY;
 const CACHE_TTL_MIN = 20;
 
 // serve your frontend files (optional)
-app.use(express.static(".")); 
+app.use(express.static("*"));
 
 // ensure tables exist before serving
-// await initDb();
+await initDb();
 
 app.get("/weather", async (req, res) => {
   const city = (req.query.city || "").trim();
@@ -63,9 +63,12 @@ app.get("/weather", async (req, res) => {
   }
 });
 
-app.get("/weatheralerts", async (req, res) => {
+app.get("/alerts", async (req, res) => {
+  const { lat, lon } = req.query;
+  if (!lat || !lon) return res.status(400).json({ error: "Latitude and longitude required" });
+  
   try {
-    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=-25.2744&lon=133.7751&appid=${process.env.API_KEY}`);
+    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}`);
     const data = await response.json();
     const alerts = data.alerts || [];
     res.json(alerts);

@@ -68,11 +68,11 @@ function displayError(message){
 }
 
 async function fetchWeatherAlerts() {
-  const alertsSection = document.getElementById("weather-alerts");
+  const alertsSection = document.getElementById("alertsSection");
   const alertsContent = document.getElementById("alertsContent");
 
   try{
-    const response = await fetch("/weatheralerts"); 
+    const response = await fetch(`/alerts?lat=${lat}&lon=${lon}`); 
     if (!response.ok) throw new Error("Failed to fetch alerts");
     const alerts = await response.json();
 
@@ -90,7 +90,6 @@ async function fetchWeatherAlerts() {
   } catch (err) {
     console.error(err);
     alertsContent.textContent = "Unable to load alerts.";
+    alertsSection.style.display = "block";
   }
-
-  alertsSection.style.display = "block";
 }
