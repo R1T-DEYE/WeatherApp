@@ -1,0 +1,117 @@
+name: CI → Deploy Test → (Approve) → Deploy Prod
+
+on:
+  push:
+    branches: [ main ]     # single branch
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'      # match App Service runtime (or change both to 22.x)
+          cache: 'npm'
+
+      - name: Install, build, test
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+          npm run build --if-present
+          npm test --if-present
+          npm prune --omit=dev
+
+      - name: Package deployable files
+        run: |
+          mkdir -p deploy
+          rsync -av \
+            --exclude '.git*' --exclude '.github' \
+            --exclude 'tests' --exclude 'test' \
+            --exclude 'node_modules' \
+            --exclude '*.md' \
+            --exclude '.env*' \
+            ./ deploy
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: deploy
+
+  deploy_test:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write
+      contents: read
+    # optional: if you create an Environment named "test", uncomment:
+    # environment: test
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: node-app
+          path: .
+
+      - name: Azure login (OIDC - TEST)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+
+      - name: Deploy to weatherapp-test
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'weatherapp-test'
+          package: .
+
+  health_check_test:
+    runs-on: ubuntu-latest
+    needs: deploy_test
+    steps:
+      - name: Wait for test to be healthy
+        run: |
+          set -e
+          URL="https://weatherapp-test.azurewebsites.net/health"
+          echo "Polling $URL until it returns 200..."
+          for i in {1..24}; do
+            if curl -fsS "$URL" >/dev/null; then
+              echo "✅ Test app healthy"
+              exit 0
+            fi
+            echo "…not ready yet (attempt $i). Sleeping 5s."
+            sleep 5
+          done
+          echo "❌ Test app did not become healthy in time" >&2
+          exit 1
+
+  deploy_prod:
+    runs-on: ubuntu-latest
+    needs: health_check_test
+    permissions:
+      id-token: write
+      contents: read
+    # Protect this environment in GitHub (Settings → Environments → production) to require approval
+    #environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: node-app
+          path: .
+
+      - name: Azure login (OIDC - PROD)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+
+      - name: Deploy to weatherapp-prod
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'weatherapp-prod'
+          package: .
