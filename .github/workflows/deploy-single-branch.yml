@@ -1,4 +1,4 @@
-name: CI → Deploy Test → (Approve) → Deploy Prod
+name: CI → Deploy Test → Health Check Tests → Deploy Prod
 
 on:
   push:
