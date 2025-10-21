@@ -10,7 +10,7 @@ const apiKey = process.env.WEATHER_API_KEY;
 const CACHE_TTL_MIN = 20;
 
 // serve your frontend files (optional)
-app.use(express.static("*"));
+app.use(express.static("."));
 
 // ensure tables exist before serving
 await initDb();
