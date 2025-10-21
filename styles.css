@@ -1,77 +1,186 @@
-body{
-    background-color: hsl(204, 58%, 66%);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.index{
-    font-family: Arial;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+body {
+  background-color: #FFD89C;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
 
-.index h1{
-    font-size: 50px;
+/* Navigation Bar */
+nav {
+  background-color: #85A389 !important;
+  padding: 15px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.weatherForm{
-    margin: 20px;
+nav a {
+  color: white !important;
+  margin-right: 20px !important;
+  text-decoration: none !important;
+  font-size: 1.1rem;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.cityInput{
-    padding: 10px;
-    font-size: 2rem;
-    font-weight: bold;
-    border: 2px solid hsla(229, 74%, 40%, 0.522);
-    border-radius: 10px;
-    margin: 10px;
-    width: 600px;
-    height: 30px;
-    
+nav a:hover {
+  background-color: #A2CDB0;
 }
 
-button[type="submit"]{
-    padding: 10px 20px;
-    font-weight: bold;
-    font-size: 1.7rem;
-    background-color: hsl(0, 0%, 90%);
-    border-radius: 10px;
-    cursor: pointer;
+/* Main Container */
+.index {
+  font-family: Arial;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
 
-button[type="submit"]:hover{
-    background-color: hsl(0, 0%, 79%);
+.index h1 {
+  font-size: 3.5rem;
+  color: #85A389;
+  margin: 2rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.result{
-    background: linear-gradient(180deg, rgba(0, 0, 255, 0.677), rgba(255, 166, 0, 0.704));
-    height: 400px;
-    width: 300px;
-    padding: 50px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    box-shadow: 30px 30px 50px hsla(0, 0%, 100%, 0.4)
-
-    
+/* Weather Form */
+.weatherForm {
+  margin: 20px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-
-.result, p{
-    color: rgba(255, 255, 255, 0.896);
-    font-size: 1rem;    
+.cityInput {
+  padding: 15px 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 3px solid #A2CDB0;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  background-color: white;
+  transition: border-color 0.3s ease;
 }
 
-.cityDisplay, .tempDisplay{
-    font-size: 2rem;
-    font-weight: bold;
+.cityInput:focus {
+  outline: none;
+  border-color: #85A389;
+}
+
+button[type="submit"] {
+  padding: 15px 30px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  background-color: #85A389;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:hover {
+  background-color: #A2CDB0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Weather Result Card */
+.result {
+  background-color: #F1C27B;
+  min-height: 350px;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  border: 3px solid #A2CDB0;
+}
+
+.result p {
+  color: #333;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.cityDisplay {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #85A389;
+  margin-bottom: 1rem;
+}
+
+.tempDisplay {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #85A389;
+  margin: 1rem 0;
 }
 
 .errorDisplay {
   font-weight: bold;
+  color: #d32f2f;
+  font-size: 1.2rem;
+}
+
+/* Weather Alerts Section */
+#alertsSection {
+  margin-top: 2rem !important;
+  background-color: white;
+  border: 3px solid #A2CDB0 !important;
+  padding: 20px !important;
+  border-radius: 15px !important;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#alertsSection h2 {
+  color: #85A389;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+#alertsContent {
+  color: #333;
+}
+
+#alertsContent > div {
+  background-color: #FFD89C;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid #F1C27B;
+}
+
+/* Forecast Page */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-container h1 {
+  font-size: 3.5rem;
+  color: #85A389;
+  margin: 2rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Forecast Grid */
@@ -83,43 +192,86 @@ button[type="submit"]:hover{
 
 .forecast-city {
   text-align: center;
-  color: #333;
+  color: #85A389;
   margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 .forecast-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1.5rem;
+  justify-items: center;
 }
 
 .forecast-card {
-  background: linear-gradient(180deg, rgba(0, 0, 255, 0.677), rgba(255, 166, 0, 0.704));
+  background-color: #F1C27B;
   padding: 1.5rem;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 10px 10px 30px hsla(0, 0%, 100%, 0.3);
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 3px solid #A2CDB0;
+  width: 100%;
+  max-width: 220px;
 }
 
 .forecast-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
 .forecast-card h3 {
-  color: white;
-  font-size: 1.3rem;
+  color: #85A389;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .forecast-card p {
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0.3rem 0;
+  color: #333;
+  margin: 0.5rem 0;
   font-size: 1rem;
 }
 
 .forecast-temp {
-  font-size: 1.8rem !important;
+  font-size: 2.5rem !important;
   font-weight: bold;
-  color: white !important;
+  color: #85A389 !important;
+  margin: 0.8rem 0 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .index h1,
+  .page-container h1 {
+    font-size: 2.5rem;
+  }
+
+  .cityInput {
+    width: 100%;
+    font-size: 1.2rem;
+  }
+
+  button[type="submit"] {
+    font-size: 1.2rem;
+    width: 100%;
+  }
+
+  .forecast-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .result {
+    width: 90%;
+    padding: 30px;
+  }
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #85A389;
+  padding: 2rem;
 }

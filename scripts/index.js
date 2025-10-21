@@ -70,8 +70,8 @@ function displayError(message){
     if (alertsSection) alertsSection.style.display = "none";
 }
 
-async function fetchWeatherAlerts() {
-  const alertsSection = document.getElementById("alertSection");
+async function fetchWeatherAlerts(lat, lon) {
+  const alertsSection = document.getElementById("alertsSection");
   const alertsContent = document.getElementById("alertsContent");
 
   try{
