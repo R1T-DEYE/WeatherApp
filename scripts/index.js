@@ -5,9 +5,6 @@ const weatherForm = document.querySelector(".weatherForm");
 const cityInput = document.querySelector(".cityInput");
 const result = document.querySelector(".result");
 
-// On page load, show national weather alerts
-window.addEventListener("DOMContentLoaded", fetchWeatherAlerts);
-
 weatherForm.addEventListener("submit", async event => {
 
     event.preventDefault();
@@ -18,6 +15,8 @@ weatherForm.addEventListener("submit", async event => {
         try{
             const weatherData = await getWeatherData(city);
             displayWeatherInfo(weatherData);
+            //fetch alerts after submission button is pressed
+            await fetchWeatherAlerts(weatherData.coord.lat, weatherData.coord.lon);
         }
         catch(error){
             console.error(error);
@@ -65,14 +64,18 @@ function displayError(message){
     result.textContent = "";
     result.style.display = "flex";
     result.appendChild(errorDisplay);
+
+    // Hide alerts on error
+    const alertsSection = document.getElementById("alertsSection");
+    if (alertsSection) alertsSection.style.display = "none";
 }
 
 async function fetchWeatherAlerts() {
-  const alertsSection = document.getElementById("alertsSection");
+  const alertsSection = document.getElementById("alertSection");
   const alertsContent = document.getElementById("alertsContent");
 
   try{
-    const response = await fetch(`/alerts?lat=${lat}&lon=${lon}`); 
+    const response = await fetch(`/alerts?lat=${lat}&lon=${lon}`);
     if (!response.ok) throw new Error("Failed to fetch alerts");
     const alerts = await response.json();
 
