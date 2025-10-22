@@ -48,8 +48,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    # optional: if you create an Environment named "test", uncomment:
-    # environment: test
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -80,13 +78,13 @@ jobs:
           echo "Polling $URL until it returns 200..."
           for i in {1..24}; do
             if curl -fLsS "$URL" >/dev/null; then
-              echo "✅ Test app healthy"
+              echo "Test app healthy"
               exit 0
             fi
             echo "…not ready yet (attempt $i). Sleeping 5s."
             sleep 5
           done
-          echo "❌ Test app did not become healthy in time" >&2
+          echo "Test app did not become healthy in time" >&2
           exit 1
 
 
@@ -96,8 +94,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    # Protect this environment in GitHub (Settings → Environments → production) to require approval
-    #environment: production
     steps:
       - uses: actions/download-artifact@v4
         with:
