@@ -2,7 +2,7 @@
 
 A small full-stack weather dashboard built with JavaScript, Node.js, Express, and MySQL. Search for a city to view current conditions, a five-day forecast, and any weather alerts returned by the OpenWeather API.
 
-This project also explores deploying a Node.js application to **Azure App Service** through a **GitHub Actions test-to-production pipeline**.
+During development, this project also used **Azure App Service** with a **GitHub Actions test-to-production pipeline**. Those cloud resources have since been decommissioned. The deployment configuration is preserved as a historical example, while the active workflow runs CI checks only.
 
 ## Features
 
@@ -11,7 +11,8 @@ This project also explores deploying a Node.js application to **Azure App Servic
 - **Weather alerts:** displays alerts when the API returns them; otherwise shows an empty or error state.
 - **Database-backed caching:** city weather responses are cached in MySQL for 20 minutes to reduce repeat external API requests.
 - **Search logging:** requested cities and request IPs are written to a MySQL table. Consider this if deploying the app or handling user data.
-- **CI/CD:** GitHub Actions builds and tests the project, deploys to an Azure test app, checks its health, and then deploys to a production app.
+- **Continuous integration:** GitHub Actions installs dependencies, runs the build command, and executes the test suite without requiring cloud credentials.
+- **Historical deployment design:** the previous Azure test → health check → production workflow remains available for inspection, but is no longer active.
 
 ## Stack
 
@@ -21,7 +22,8 @@ This project also explores deploying a Node.js application to **Azure App Servic
 | Backend | Node.js, Express |
 | External API | OpenWeather |
 | Storage | MySQL (`mysql2`) |
-| Deployment | Azure App Service, GitHub Actions, Azure OIDC login |
+| Current CI | GitHub Actions (build and tests) |
+| Historical deployment | Azure App Service with OIDC authentication |
 
 ## How it works
 
@@ -78,17 +80,29 @@ The frontend is served from the same Express app. The server creates `weather_ca
 
 > **Database note:** The current MySQL connection requests TLS (`minVersion: TLSv1.2`). Your database must accept this configuration. The app needs database access even before its HTTP server starts, because it initializes the tables at startup.
 
-## Deployment pipeline
+## Continuous integration and historical deployment
 
-The workflow in [`.github/workflows/deploy-single-branch.yml`](.github/workflows/deploy-single-branch.yml) is triggered by pushes to `main` or manually:
+**Current status (November 2026):** The Azure test and production resources used for coursework are no longer available. There is **no live Azure deployment or hosted demo** for this project.
 
-1. Install dependencies and run the configured build/test commands.
-2. Package application files as a GitHub Actions artifact.
-3. Authenticate to Azure with OIDC and deploy to `weatherapp-test`.
-4. Poll the test site's root URL until it responds successfully.
-5. Deploy the same artifact to `weatherapp-prod`.
+The active [CI workflow](.github/workflows/ci.yml) runs on pull requests and pushes to `main`, and can also be triggered manually. It:
 
-Deployment requires the Azure app services, federated identity setup, and repository secrets referenced by the workflow. The included tests currently cover a few basic data-formatting examples; they are **not** comprehensive API or end-to-end tests. The workflow uses Node.js 20 while the root `package.json` specifies Node.js 22+, so these versions should be aligned before relying on the pipeline for a fresh deployment.
+1. Sets up Node.js 22 (matching the version requirement in `package.json`).
+2. Installs the application and test dependencies using their lockfiles.
+3. Runs the configured build command and the test suite.
+
+The included tests currently cover a few data-formatting examples; they are **not** comprehensive API or end-to-end tests. CI does not connect to Azure or attempt to deploy the app.
+
+### Archived Azure pipeline
+
+The original [Azure deployment workflow](docs/archived-workflows/azure-deploy.yml) is kept outside `.github/workflows/`, so GitHub Actions **will not execute it**. The preserved workflow documents the earlier design:
+
+1. Build and test the Node.js application.
+2. Package the application as an artifact.
+3. Authenticate with Azure using OIDC and deploy to a test app.
+4. Perform an HTTP health check before progressing.
+5. Deploy the same artifact to production.
+
+The archived YAML references retired Azure resources and the old Node.js 20 configuration. It is historical source material, **not a ready-to-run deployment**. Restoring deployment would require provisioning new Azure infrastructure, updating authentication, and revalidating the pipeline.
 
 ## Project notes
 
