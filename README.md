@@ -4,6 +4,18 @@ A small full-stack weather dashboard built with JavaScript, Node.js, Express, an
 
 During development, this project also used **Azure App Service** with a **GitHub Actions test-to-production pipeline**. Those cloud resources have since been decommissioned. The deployment configuration is preserved as a historical example, while the active workflow runs CI checks only.
 
+## Interface previews
+
+These images show the real WeatherApp frontend rendering **illustrative sample API responses** for Melbourne. They are not live weather observations or evidence of a functioning Azure deployment; the original backend resources have been retired.
+
+**Current conditions**
+
+![WeatherApp current conditions with sample Melbourne weather data](docs/screenshots/current-conditions-sample.png)
+
+**Five-day forecast**
+
+![WeatherApp forecast screen with illustrative five-day Melbourne weather data](docs/screenshots/five-day-forecast-sample.png)
+
 ## Features
 
 - **Current weather:** temperature, description, humidity, wind speed/direction, and minimum/maximum temperatures.
