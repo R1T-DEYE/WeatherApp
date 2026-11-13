@@ -1,0 +1,33 @@
+name: Capture WeatherApp sample screenshots (temporary)
+
+on:
+  push:
+    branches:
+      - docs/weather-sample-screenshots-2026-11-13
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          npm install --no-save --prefix /tmp/weather-pw playwright@1.56.1
+          /tmp/weather-pw/node_modules/.bin/playwright install chromium --with-deps
+      - name: Start static frontend
+        run: python3 -m http.server 8010 --bind 127.0.0.1 > /tmp/weather-server.log 2>&1 &
+      - name: Capture user interface with labelled synthetic API responses
+        run: node scripts/capture-weather-sample.cjs
+      - name: Commit screenshots
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots
+          git commit -m "docs: capture WeatherApp sample-data screens [skip ci]"
+          git push origin HEAD:refs/heads/docs/weather-sample-screenshots-2026-11-13
